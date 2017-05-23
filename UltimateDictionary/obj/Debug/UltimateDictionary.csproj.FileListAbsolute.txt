@@ -1,0 +1,13 @@
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\UltimateDictionary.exe.config
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.csprojResolveAssemblyReference.cache
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.Properties.Resources.resources
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.csproj.GenerateResource.Cache
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\UltimateDictionary.exe
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\UltimateDictionary.pdb
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.exe
+c:\users\anton\documents\visual studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.pdb
+C:\Users\Anton\Documents\Visual Studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\HtmlAgilityPack.dll
+C:\Users\Anton\Documents\Visual Studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\Anton\Documents\Visual Studio 2015\Projects\UltimateDictionary\UltimateDictionary\bin\Debug\HtmlAgilityPack.xml
+C:\Users\Anton\Documents\Visual Studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.DictionaryForm.resources
+C:\Users\Anton\Documents\Visual Studio 2015\Projects\UltimateDictionary\UltimateDictionary\obj\Debug\UltimateDictionary.MemorizerForm.resources
