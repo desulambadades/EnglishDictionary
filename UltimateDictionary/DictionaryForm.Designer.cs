@@ -36,9 +36,9 @@
             this.label3 = new System.Windows.Forms.Label();
             this.fileToAnalizePathTextBox = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.dictionaryPathTextBox = new System.Windows.Forms.TextBox();
+            this.excelPathTextBox = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.allWordsPathTextBox = new System.Windows.Forms.TextBox();
+            this.workingDirTextBox = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.sourseListBox = new System.Windows.Forms.ListBox();
             this.SubTo1Button = new System.Windows.Forms.Button();
@@ -117,13 +117,13 @@
             this.label4.TabIndex = 5;
             this.label4.Text = "Путь к Excel файлу";
             // 
-            // dictionaryPathTextBox
+            // excelPathTextBox
             // 
-            this.dictionaryPathTextBox.Location = new System.Drawing.Point(454, 158);
-            this.dictionaryPathTextBox.Name = "dictionaryPathTextBox";
-            this.dictionaryPathTextBox.Size = new System.Drawing.Size(242, 20);
-            this.dictionaryPathTextBox.TabIndex = 6;
-            this.dictionaryPathTextBox.Text = "C:\\3\\UltimateDictionary.xlsx";
+            this.excelPathTextBox.Location = new System.Drawing.Point(454, 158);
+            this.excelPathTextBox.Name = "excelPathTextBox";
+            this.excelPathTextBox.Size = new System.Drawing.Size(242, 20);
+            this.excelPathTextBox.TabIndex = 6;
+            this.excelPathTextBox.Text = "C:\\3\\UltimateDictionary.xlsx";
             // 
             // label5
             // 
@@ -134,13 +134,13 @@
             this.label5.TabIndex = 5;
             this.label5.Text = "Рабочая директория";
             // 
-            // allWordsPathTextBox
+            // workingDirTextBox
             // 
-            this.allWordsPathTextBox.Location = new System.Drawing.Point(454, 198);
-            this.allWordsPathTextBox.Name = "allWordsPathTextBox";
-            this.allWordsPathTextBox.Size = new System.Drawing.Size(242, 20);
-            this.allWordsPathTextBox.TabIndex = 6;
-            this.allWordsPathTextBox.Text = "C:\\3\\";
+            this.workingDirTextBox.Location = new System.Drawing.Point(454, 198);
+            this.workingDirTextBox.Name = "workingDirTextBox";
+            this.workingDirTextBox.Size = new System.Drawing.Size(242, 20);
+            this.workingDirTextBox.TabIndex = 6;
+            this.workingDirTextBox.Text = "C:\\3\\";
             // 
             // button2
             // 
@@ -190,11 +190,11 @@
             // 
             // memorizerButton
             // 
-            this.memorizerButton.Location = new System.Drawing.Point(629, 12);
+            this.memorizerButton.Location = new System.Drawing.Point(618, 12);
             this.memorizerButton.Name = "memorizerButton";
-            this.memorizerButton.Size = new System.Drawing.Size(73, 23);
+            this.memorizerButton.Size = new System.Drawing.Size(84, 23);
             this.memorizerButton.TabIndex = 26;
-            this.memorizerButton.Text = "Memorizer";
+            this.memorizerButton.Text = "Memorizer=>";
             this.memorizerButton.UseVisualStyleBackColor = true;
             this.memorizerButton.Click += new System.EventHandler(this.StudyButton_Click);
             // 
@@ -218,9 +218,9 @@
             this.Controls.Add(this.SubTo1Button);
             this.Controls.Add(this.sourseListBox);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.allWordsPathTextBox);
+            this.Controls.Add(this.workingDirTextBox);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.dictionaryPathTextBox);
+            this.Controls.Add(this.excelPathTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.fileToAnalizePathTextBox);
             this.Controls.Add(this.label3);
@@ -233,6 +233,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UltimateDictionary";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DictionaryForm_FormClosing);
+            this.Load += new System.EventHandler(this.DictionaryForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,9 +249,9 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox fileToAnalizePathTextBox;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox dictionaryPathTextBox;
+        private System.Windows.Forms.TextBox excelPathTextBox;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox allWordsPathTextBox;
+        private System.Windows.Forms.TextBox workingDirTextBox;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.ListBox sourseListBox;
         private System.Windows.Forms.Button SubTo1Button;

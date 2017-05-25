@@ -26,7 +26,8 @@ namespace UltimateDictionary
         }
         private void MemorizerForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            excelApp.Quit();
+            if (excelApp != null)
+                excelApp.Quit();
             Application.Exit();
         }
         private void MemorizerForm_Load(object sender, EventArgs e)
@@ -60,6 +61,12 @@ namespace UltimateDictionary
         {
             if (excelApp == null)
             {
+                string pathToExcel = FileSaver.OpenExcelFile();
+                if (DM.PathToExcel == "")
+                {
+                    MessageBox.Show("Файл " + DM.PathToExcel + " не найден");
+                    return;
+                }
                 excelApp = new ExcelManager();
                 excelApp.Open(DM.PathToExcel);
             }
@@ -192,16 +199,20 @@ namespace UltimateDictionary
         {
             Tag("2");
         }
-
-
         private void tag1Button_Click(object sender, EventArgs e)
         {
             Tag("1");
         }
-
         private void tag3Button_Click(object sender, EventArgs e)
         {
             Tag("3");
+        }
+
+        private void toDictionaryButton_Click(object sender, EventArgs e)
+        {
+            DictionaryForm dictForm = new DictionaryForm();
+            dictForm.Show();
+            Hide();
         }
     }
 }

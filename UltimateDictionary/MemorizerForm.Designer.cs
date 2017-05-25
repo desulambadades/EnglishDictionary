@@ -57,6 +57,7 @@
             this.showLabel = new System.Windows.Forms.Label();
             this.loadButton = new System.Windows.Forms.Button();
             this.tag3Button = new System.Windows.Forms.Button();
+            this.toDictionaryButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -313,12 +314,13 @@
             // 
             // loadButton
             // 
+            this.loadButton.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.loadButton.Location = new System.Drawing.Point(710, 243);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 21;
             this.loadButton.Text = "Load";
-            this.loadButton.UseVisualStyleBackColor = true;
+            this.loadButton.UseVisualStyleBackColor = false;
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // tag3Button
@@ -331,11 +333,22 @@
             this.tag3Button.UseVisualStyleBackColor = true;
             this.tag3Button.Click += new System.EventHandler(this.tag3Button_Click);
             // 
+            // toDictionaryButton
+            // 
+            this.toDictionaryButton.Location = new System.Drawing.Point(12, 1);
+            this.toDictionaryButton.Name = "toDictionaryButton";
+            this.toDictionaryButton.Size = new System.Drawing.Size(75, 23);
+            this.toDictionaryButton.TabIndex = 23;
+            this.toDictionaryButton.Text = "<=Dictionary";
+            this.toDictionaryButton.UseVisualStyleBackColor = true;
+            this.toDictionaryButton.Click += new System.EventHandler(this.toDictionaryButton_Click);
+            // 
             // MemorizerForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1148, 763);
+            this.Controls.Add(this.toDictionaryButton);
             this.Controls.Add(this.tag3Button);
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.showLabel);
@@ -403,5 +416,6 @@
         private System.Windows.Forms.Label showLabel;
         private System.Windows.Forms.Button loadButton;
         private System.Windows.Forms.Button tag3Button;
+        private System.Windows.Forms.Button toDictionaryButton;
     }
 }

@@ -27,6 +27,25 @@ namespace UltimateDictionary
             }
             return name;
         }
+        static public string ReadTextToAnalize()
+        {
+            string textToAnalyze = "";
+
+            if (File.Exists(DM.fileToAnalizePath))
+                textToAnalyze = File.ReadAllText(DM.fileToAnalizePath, Encoding.GetEncoding("windows-1251"));
+
+            return textToAnalyze;
+        }
+        static public string OpenExcelFile()
+        {
+            string PathToExcel = "";
+
+            if (File.Exists(DM.PathToExcel))
+                PathToExcel = File.ReadAllText(DM.PathToExcel, Encoding.GetEncoding("windows-1251"));
+
+            return PathToExcel;
+        }
+
         static public void TagLog(string word, string tag)
         {
             string path = DM.workingDir + "log\\tagging.txt";

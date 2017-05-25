@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,9 @@ namespace UltimateDictionary
     class DictionaryManager
     {
         public static ColumnsOfDictionary Columns;
-        public static string PathToExcel = @"C:\3\UltimateDictionary.xlsx";
-        public static string workingDir = @"C:\3\";
-        public static string fileToAnalizePath = @"C:\3\1.txt";
+        public static string fileToAnalizePath;
+        public static string PathToExcel;
+        public static string workingDir;    
 
         public static void Init()
         {

@@ -17,13 +17,22 @@ namespace UltimateDictionary
         private Worksheet excelworksheet;
         private Range excelcell;       
 
-        public void Open(string path)
+        public int Open(string path)
         {
-            excelapp = new Application();
-            excelapp.Visible = true;
-            excelapp.Workbooks.Open(path);
-            excelworksheet = excelapp.Workbooks[1].Worksheets[1];
-            excelapp.Visible = false;
+            try
+            {
+                excelapp = new Application();
+                excelapp.Visible = true;
+                excelapp.Workbooks.Open(path);
+                excelworksheet = excelapp.Workbooks[1].Worksheets[1];
+                excelapp.Visible = false;
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+            
         }
         public void Quit()
         {

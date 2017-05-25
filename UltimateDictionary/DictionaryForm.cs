@@ -17,14 +17,37 @@ namespace UltimateDictionary
 
         public DictionaryForm()
         {
-            InitializeComponent();
-            DM.fileToAnalizePath = fileToAnalizePathTextBox.Text;
-            DM.PathToExcel = dictionaryPathTextBox.Text;
+            InitializeComponent();            
+        }
+        private void DictionaryForm_Load(object sender, EventArgs e)
+        {
+            InitDictionaryManagerPaths();
             DM.Init();
-            InitSourseListBox();
+            InitPathsTextBox();
+            InitSourseListBox();            
+        }
+        void InitPathsTextBox()
+        {
+            if (!File.Exists(workingDirTextBox.Text + "paths.ini"))
+                return;
+
+            var paths = File.ReadAllLines(workingDirTextBox.Text + "Paths.ini").ToDictionary(k=>k=k.Split('|')[0],v=>v=v.Split('|')[1]);
+            
+            fileToAnalizePathTextBox.Text = paths["file"];
+            excelPathTextBox.Text = paths["excel"];
+            workingDirTextBox.Text= paths["workingDir"];
+        }
+        void InitDictionaryManagerPaths()
+        {
+            DM.fileToAnalizePath = fileToAnalizePathTextBox.Text;
+            DM.PathToExcel = excelPathTextBox.Text;
+            DM.workingDir = workingDirTextBox.Text;
         }
         void InitSourseListBox()
         {
+            if (!File.Exists(DM.workingDir + "SourseList.ini"))
+                return;
+
             sourseListBox.Items.Clear();
             foreach (var item in FileSaver.GetSourseList())
             {
@@ -33,15 +56,30 @@ namespace UltimateDictionary
         }
         private void addWordsFromTextButton_Click(object sender, EventArgs e)
         {
+            InitDictionaryManagerPaths();
             if (commonSourceTextBox.Text == "" || sourceTextBox.Text == "")
+            {
+                MessageBox.Show("Не заполнены поля источники");
                 return;
-            
+            }
+            string textToAnalyze = FileSaver.ReadTextToAnalize();
+            if (textToAnalyze == "")
+            {
+                MessageBox.Show("Файл " + DM.fileToAnalizePath + " не найден");
+                return;
+            }
+            string pathToExcel = FileSaver.OpenExcelFile();
+            if (DM.PathToExcel == "")
+            {
+                MessageBox.Show("Файл " + DM.PathToExcel + " не найден");
+                return;
+            }
+
             int news = 0;
             int olds = 0;
             string log = "";
 
-            WordsFormer allWords = new WordsFormer();            
-            string textToAnalyze  = File.ReadAllText(DM.fileToAnalizePath, Encoding.GetEncoding("windows-1251"));
+            WordsFormer allWords = new WordsFormer();
             allWords.analyzeAll(textToAnalyze);
             
             excelApp = new ExcelManager();
@@ -99,16 +137,27 @@ namespace UltimateDictionary
 
         private void beautifyButton_Click(object sender, EventArgs e)
         {
+            InitDictionaryManagerPaths();
             if (excelApp == null)
             {
+                string pathToExcel = FileSaver.OpenExcelFile();
+                if (pathToExcel == "")
+                {
+                    MessageBox.Show("Файл " + DM.PathToExcel + " не найден");
+                    return;
+                }
                 excelApp = new ExcelManager();
                 excelApp.Open(DM.PathToExcel);
             }
-
-            var text = File.ReadAllText(DM.fileToAnalizePath, Encoding.GetEncoding("windows-1251"));
+            string textToAnalyze = FileSaver.ReadTextToAnalize();
+            if (textToAnalyze == "")
+            {
+                MessageBox.Show("Файл " + DM.fileToAnalizePath + " не найден");
+                return;
+            }
 
             WordsFormer allWords = new WordsFormer();
-            allWords.analyzeAll(text);
+            allWords.analyzeAll(textToAnalyze);
 
             List<string> lWords = excelApp.GetColumn(DM.Columns.word);
             List<string> lfreq = excelApp.GetColumn(DM.Columns.freq);
@@ -121,7 +170,7 @@ namespace UltimateDictionary
             string addFreq;
             string miniDict = "";
 
-            for (int i = 0; i < allWords.dict.Count; i++)//lWords[i].Count
+            for (int i = 0; i < allWords.dict.Count; i++)
             {
                 string word = allWords.dict[i].word;
                 
@@ -136,29 +185,29 @@ namespace UltimateDictionary
                 if (lSrs[ind] == sourceTextBox.Text)//that source 
                 {
                     if (lLvl[ind] == "0")//dont know, new   
-                        styleze.StylizeWord(word, ref text, addFreq, DM.Styles.bold);
+                        styleze.StylizeWord(word, ref textToAnalyze, addFreq, DM.Styles.bold);
 
                     if (lLvl[ind] == "1")//maybe know, new
-                        styleze.StylizeWord(word, ref text, addFreq, DM.Styles.brown);
+                        styleze.StylizeWord(word, ref textToAnalyze, addFreq, DM.Styles.brown);
                 }
                 else
                 {
                     if (lLvl[ind] == "0" || lLvl[ind] == "1")//maybe know and don't know, another source                    
                     {
-                        styleze.StylizeWord(word, ref text, addFreq, DM.Styles.italic);
+                        styleze.StylizeWord(word, ref textToAnalyze, addFreq, DM.Styles.italic);
                         miniDict = miniDict + word + '\t' + ltrans1[ind] + '\t' + ltrans2[ind] + '\t' + ltrans3[ind] + '\r';
                     }
                     if (lLvl[ind] == "2")//maybe know and don't know, another source                    
                     {
-                        styleze.StylizeWord(word, ref text, addFreq, DM.Styles.blue);
+                        styleze.StylizeWord(word, ref textToAnalyze, addFreq, DM.Styles.blue);
                         miniDict = miniDict + word + '\t' + ltrans1[ind] + '\t' + ltrans2[ind] + '\t' + ltrans3[ind] + '\r';
                     }
                 }
             }
-            text = text.Replace("\r", "<br>");
+            textToAnalyze = textToAnalyze.Replace("\r", "<br>");
 
             string name = commonSourceTextBox.Text + " " + sourceTextBox.Text;
-            FileSaver.WriteFiles(name, miniDict, text);
+            FileSaver.WriteFiles(name, miniDict, textToAnalyze);
 
             excelApp.Quit();
             Application.Exit();
@@ -197,8 +246,23 @@ namespace UltimateDictionary
 
         private void DictionaryForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            InitDictionaryManagerPaths();
+
+            string paths = "";
+            paths += "file|" + DM.fileToAnalizePath + "\r";
+            paths += "excel|" + DM.PathToExcel + "\r";
+            paths += "workingDir|" + DM.workingDir + "\r";
+
+            if (!Directory.Exists(DM.workingDir))
+            {
+                Directory.CreateDirectory(DM.workingDir);
+            }
+
+            File.WriteAllText(DM.workingDir + "Paths.ini", paths, Encoding.UTF8);
+
             var sourseList = sourseListBox.Items.Cast<string>();
             FileSaver.SaveSourseList(sourseList);
+            Application.Exit();
         }
 
 
@@ -207,6 +271,8 @@ namespace UltimateDictionary
             if (e.KeyCode == Keys.Delete)
                 sourseListBox.Items.RemoveAt(sourseListBox.SelectedIndex);
         }
+
+
     }
 }
 
