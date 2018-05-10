@@ -12,6 +12,8 @@ namespace UltimateDictionary
         static public int maxExamples = 20;   
         
         string text;
+        internal static bool Counting;
+
         public WordsFormer()
         {
             dict = new List<Word>();
@@ -91,12 +93,14 @@ namespace UltimateDictionary
                             if(indexInWords>-1)
                             {
                                 words[indexInWords].incFreq();
-                                words[indexInWords].isExample(getSentence(i, word));
+                                if(!Counting)// если идёт не просто подсчёт слов
+                                    words[indexInWords].isExample(getSentence(i, word));
                             }
                             else
                             {
                                 Word tmpWord = new Word(word.ToLower());
-                                tmpWord.addExample(getSentence(i, word));
+                                if(!Counting)// если  идёт не просто подсчёт слов
+                                    tmpWord.addExample(getSentence(i, word));
                                 words.Add(tmpWord);
                                 word = "";
                             }                            

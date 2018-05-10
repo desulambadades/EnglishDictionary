@@ -45,6 +45,12 @@
             this.button9 = new System.Windows.Forms.Button();
             this.memorizerButton = new System.Windows.Forms.Button();
             this.addSourseTextBox = new System.Windows.Forms.TextBox();
+            this.countWordsButton = new System.Windows.Forms.Button();
+            this.showTextBoxButton = new System.Windows.Forms.Button();
+            this.textToReadRichBox = new System.Windows.Forms.RichTextBox();
+            this.analizeTextBoxButton = new System.Windows.Forms.Button();
+            this.kanaButton = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -187,6 +193,7 @@
             this.button9.TabIndex = 22;
             this.button9.Text = "beautify subs";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.beautifySubs_Click);
             // 
             // memorizerButton
             // 
@@ -206,12 +213,77 @@
             this.addSourseTextBox.TabIndex = 27;
             this.addSourseTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.addSourseTextBox_KeyDown);
             // 
+            // countWordsButton
+            // 
+            this.countWordsButton.Location = new System.Drawing.Point(43, 195);
+            this.countWordsButton.Name = "countWordsButton";
+            this.countWordsButton.Size = new System.Drawing.Size(75, 23);
+            this.countWordsButton.TabIndex = 28;
+            this.countWordsButton.Text = "Count words";
+            this.countWordsButton.UseVisualStyleBackColor = true;
+            this.countWordsButton.Click += new System.EventHandler(this.countWordsButton_Click);
+            // 
+            // showTextBoxButton
+            // 
+            this.showTextBoxButton.Location = new System.Drawing.Point(41, 244);
+            this.showTextBoxButton.Name = "showTextBoxButton";
+            this.showTextBoxButton.Size = new System.Drawing.Size(75, 23);
+            this.showTextBoxButton.TabIndex = 29;
+            this.showTextBoxButton.Text = "textbox show";
+            this.showTextBoxButton.UseVisualStyleBackColor = true;
+            this.showTextBoxButton.Click += new System.EventHandler(this.showTextBoxButton_Click);
+            // 
+            // textToReadRichBox
+            // 
+            this.textToReadRichBox.Location = new System.Drawing.Point(0, 273);
+            this.textToReadRichBox.Name = "textToReadRichBox";
+            this.textToReadRichBox.Size = new System.Drawing.Size(712, 545);
+            this.textToReadRichBox.TabIndex = 30;
+            this.textToReadRichBox.Text = "";
+            // 
+            // analizeTextBoxButton
+            // 
+            this.analizeTextBoxButton.Location = new System.Drawing.Point(122, 244);
+            this.analizeTextBoxButton.Name = "analizeTextBoxButton";
+            this.analizeTextBoxButton.Size = new System.Drawing.Size(75, 23);
+            this.analizeTextBoxButton.TabIndex = 31;
+            this.analizeTextBoxButton.Text = "analize";
+            this.analizeTextBoxButton.UseVisualStyleBackColor = true;
+            this.analizeTextBoxButton.Click += new System.EventHandler(this.analizeTextBoxButton_Click);
+            // 
+            // button3
+            // 
+            this.kanaButton.Location = new System.Drawing.Point(289, 95);
+            this.kanaButton.Name = "button3";
+            this.kanaButton.Size = new System.Drawing.Size(75, 23);
+            this.kanaButton.TabIndex = 32;
+            this.kanaButton.Text = "Kana";
+            this.kanaButton.UseVisualStyleBackColor = true;
+            this.kanaButton.Click += new System.EventHandler(this.button3Kana_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(196, 198);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 33;
+            this.button4.Text = "перевод oxford";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Visible = false;
+            this.button4.Click += new System.EventHandler(this.translateText_ButtonClick);
+            // 
             // DictionaryForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(714, 274);
+            this.ClientSize = new System.Drawing.Size(714, 812);
+            this.Controls.Add(this.button4);
+            this.Controls.Add(this.kanaButton);
+            this.Controls.Add(this.analizeTextBoxButton);
+            this.Controls.Add(this.textToReadRichBox);
+            this.Controls.Add(this.showTextBoxButton);
+            this.Controls.Add(this.countWordsButton);
             this.Controls.Add(this.addSourseTextBox);
             this.Controls.Add(this.memorizerButton);
             this.Controls.Add(this.button9);
@@ -258,6 +330,12 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button memorizerButton;
         private System.Windows.Forms.TextBox addSourseTextBox;
+        private System.Windows.Forms.Button countWordsButton;
+        private System.Windows.Forms.Button showTextBoxButton;
+        private System.Windows.Forms.RichTextBox textToReadRichBox;
+        private System.Windows.Forms.Button analizeTextBoxButton;
+        private System.Windows.Forms.Button kanaButton;
+        private System.Windows.Forms.Button button4;
     }
 }
 

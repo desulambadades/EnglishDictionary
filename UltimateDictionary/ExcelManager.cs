@@ -74,9 +74,12 @@ namespace UltimateDictionary
             return lst;
         }
         public void SetValue(int col,int row,string val)
-        {
+        {            
             excelcell = excelworksheet.Cells[row, col];
+
+            var height = excelcell.Height;
             excelcell.Value2 = val;
+            excelcell.RowHeight = height;
         }
         public string GetValue(int col, int row)
         {

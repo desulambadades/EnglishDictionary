@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using DM = UltimateDictionary.DictionaryManager;
 
 namespace UltimateDictionary
@@ -39,10 +40,17 @@ namespace UltimateDictionary
         static public string OpenExcelFile()
         {
             string PathToExcel = "";
-
-            if (File.Exists(DM.PathToExcel))
-                PathToExcel = File.ReadAllText(DM.PathToExcel, Encoding.GetEncoding("windows-1251"));
-
+            try
+            {
+                if (File.Exists(DM.PathToExcel))
+                    PathToExcel = File.ReadAllText(DM.PathToExcel, Encoding.GetEncoding("windows-1251"));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Excel файл открыт. Зайкройте");
+                throw ex;
+            }
+            
             return PathToExcel;
         }
 

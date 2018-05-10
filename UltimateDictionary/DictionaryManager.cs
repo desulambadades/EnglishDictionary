@@ -12,7 +12,8 @@ namespace UltimateDictionary
         public static ColumnsOfDictionary Columns;
         public static string fileToAnalizePath;
         public static string PathToExcel;
-        public static string workingDir;    
+        public static string workingDir;
+        internal static readonly int NumberOfRare = 12;
 
         public static void Init()
         {
@@ -28,6 +29,7 @@ namespace UltimateDictionary
             public int freq = 2;
             public int level = 3;
             public int date = 4;
+            public int definition = 5;
             public int init = 7;
             public int trans1 = 8;
             public int trans2 = 9;

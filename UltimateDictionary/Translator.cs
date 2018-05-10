@@ -15,6 +15,7 @@ namespace UltimateDictionary
             public string word;
             public string initial;
             public string translation;
+            public string definition;
             public WordTranslation(string word)
             {
                 this.word = word;
@@ -29,6 +30,100 @@ namespace UltimateDictionary
             doc = new HtmlDocument();
             doc.LoadHtml(answer);
         }
+
+        public string GetOxfordDefinition(string word)
+        {
+            string url = "https://en.oxforddictionaries.com/definition/";
+            string str;
+            HttpWebRequest req = (HttpWebRequest)HttpWebRequest.Create(url + word);
+            req.UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0";
+            req.Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8";
+            req.ContentType = "application/x-www-form-urlencoded";
+            var ans = req.GetResponse();
+            var strm = ans.GetResponseStream();
+            StreamReader sr = new StreamReader(strm);
+            str = sr.ReadToEnd();
+            sr.Close();
+
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(str);
+
+
+            if (doc.DocumentNode.SelectSingleNode(".//span[@class='hw']") == null)
+                return "";
+            HtmlNodeCollection grambs = doc.DocumentNode.SelectNodes(".//section[@class='gramb']");
+            if (grambs == null)
+                return "";
+
+            string mainWord = doc.DocumentNode.SelectSingleNode(".//span[@class='hw']").InnerText + "\n";
+            string allMessage = "\"" + mainWord;
+
+            foreach (HtmlNode gramb in grambs)
+            {
+                string gramPartOfSpeech = gramb.SelectSingleNode(@".//span[@class='pos']").InnerText;
+                allMessage += gramPartOfSpeech + "\n";
+
+                HtmlNodeCollection meanings = gramb.SelectNodes(@".//ul[@class='semb']/li/div[@class='trg']");
+                foreach (HtmlNode meaning in meanings)
+                {
+                    string iteration = meaning.SelectSingleNode(@"./p/span[@class='iteration']").InnerText + " ";
+                    if (iteration == " ")
+                        iteration = "";
+
+                    var meann = meaning.SelectSingleNode(@"./p/span[@class='ind']");
+                    string mean = "";
+                    if (meann != null)
+                        mean = meaning.SelectSingleNode(@"./p/span[@class='ind']").InnerText;
+                    else
+                        continue;
+
+                    string synonyms = "";
+                    HtmlNodeCollection synonymsColection = meaning.SelectNodes(@"./div/div/div[@class='exs']");
+                    if (synonymsColection != null)
+                    {
+                        foreach (HtmlNode synonymLine in synonymsColection)
+                        {
+                            string synLine = synonymLine.InnerText;
+                            if(synLine.Length>50)
+                            {
+                                int sixComma = synLine.IndexOf(",", 50);
+                                if (sixComma > -1)
+                                    synLine = synLine.Substring(0, sixComma);
+                            }
+                            synonyms += synLine + "\n";
+                        }
+                        synonyms = "synonyms: " + synonyms;
+                    }
+                    allMessage += iteration + mean + "\n" + synonyms;
+
+                    /*
+                                        HtmlNodeCollection detailedMeanings = meaning.SelectNodes(@".//li[@class='subSense']");
+                                        foreach (HtmlNode detailedMeaning in detailedMeanings)
+                                        {
+                                            string subIteration = detailedMeaning.SelectSingleNode(@".//span[@class='subsenseIteration']").InnerText;
+                                            string subMean = detailedMeaning.SelectSingleNode(@".//span[@class='ind']").InnerText;
+                                            string subSynonyms = detailedMeaning.SelectSingleNode(@".//div[@class='exs']").InnerText;
+
+                                            allMessage += subIteration + " " + subMean + "\n" + "synonyms: " + subSynonyms + "\n";
+                                        }*/
+
+
+
+                    /*
+                        string betterText = "";
+                    if (headline.InnerText.Length>1 && char.IsDigit(headline.InnerText[0]))
+                        betterText = headline.InnerText.Insert(1, ". ");
+                    else
+                        betterText = headline.InnerText;
+                        
+                    allMessage += betterText + "\n";*/
+                }
+            }
+            allMessage +="\"";
+            allMessage = allMessage.Replace("&#39;", "'").Replace("&amp;", " ");
+            return allMessage;
+        }
+
         public WordTranslation makeTranslations(string word)
         {
             string initialWord;
@@ -37,15 +132,21 @@ namespace UltimateDictionary
 
             var InitTranslation = GetInitialTranslation(word);
             initialWord = InitTranslation.word;
-
-            if (thisTranslation.translation == "")//нет перевода
-                thisTranslation.translation = ToThreeColumns(InitTranslation.translation);
-            else
-                thisTranslation.translation = ToThreeColumns(thisTranslation.translation);
+            
+            //потому что плохой перевод у форм слова
+            thisTranslation.translation = ToThreeColumns(InitTranslation.translation);
 
             if (initialWord != thisTranslation.word)//не изначальное слово
                 thisTranslation.initial = initialWord;
-            
+            try
+            {
+                thisTranslation.definition = GetOxfordDefinition(word);
+            }
+            catch (System.Exception ee)
+            {
+                File.AppendAllText(@"C:\111.txt", word + " " + ee.Message + "\n");
+            }            
+
             return thisTranslation;
         }
 
@@ -59,7 +160,7 @@ namespace UltimateDictionary
             }
 
             WordTranslation initial = new WordTranslation(word);
-            initial.translation = GetDefinition();
+            initial.translation = GetDefinition(word);
             return initial;
         }
         List<WordTranslation> GetDerivedWords(string word, string block)
@@ -100,10 +201,10 @@ namespace UltimateDictionary
         {
             Load(derivedWord);
             WordTranslation derivedTrans = new WordTranslation(derivedWord);
-            derivedTrans.translation = GetDefinition();
+            derivedTrans.translation = GetDefinition(derivedWord);
             return derivedTrans;
         }
-        string GetDefinition()
+        string GetDefinition(string word)
         {
             var yandexTranslate = doc.DocumentNode.SelectNodes("//*[@class='light_tr']");
             if (yandexTranslate != null)
@@ -126,7 +227,12 @@ namespace UltimateDictionary
                 return toNormalView;
             }
 
-            return doc.GetElementbyId("wd_content").ChildNodes[1].InnerText;
+            string translation = "";
+            var transNode = doc.DocumentNode.SelectSingleNode(".//span[@class='t_inline_en']");
+            if (transNode != null)
+                translation = transNode.InnerText;            
+
+            return translation;
         }
         string GetInitialWord()
         {
